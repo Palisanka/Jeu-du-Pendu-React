@@ -16,40 +16,39 @@ class App extends Component {
 
   onSelectedLetterHandle = (event) => {
     let clickedLetter = event.target.innerHTML;
-    let wordOnConstruction  = this.state.wordOnConstruction;
+    let newWord  = "";
 
 
     this.state.selectedWord.split("").forEach( (letter) => {
       if (letter === clickedLetter) {
-        wordOnConstruction += letter;
+        newWord += letter;
       } else {
-        wordOnConstruction += "_";
+        newWord += "_";
       }
     })
 
     this.setState({
-      wordOnConstruction
+      wordOnConstruction: newWord
     });
   }
 
 
   newGame = () => {
-    let wordOnConstruction = this.state.wordOnConstruction;
+    let initWord = "";
     let dicoLength = this.state.dico.length;
     let randomWordIndex = Math.floor(Math.random() * dicoLength);
     let selectedWord = this.state.dico[randomWordIndex].toUpperCase();
 
     const numberLetterSelectedWord = selectedWord.length;
     for (let i=0; i < numberLetterSelectedWord; i++) {
-      wordOnConstruction += "_";
+      initWord += "_";
     }
     this.setState({
-      wordOnConstruction,
-      selectedWord
+      wordOnConstruction: initWord,
+      selectedWord: selectedWord
     });
 
     console.log("Mot à trouver est: " + selectedWord);
-    return selectedWord;
   }
 
 
