@@ -6,63 +6,53 @@ class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      wordToFind: "????????",
+      wordOnConstruction: "",
       selectedWord: "",
-      dico: ["google", "apple", "facebook", "amazon"]
+      dico: ["google", "apple", "facebook", "amazon"],
+      win: "",
+      usedLetters: ""
     };
   }
 
-  // getTheKeyCode = (e) => {
-  //   switch (e.key) {
-  //     case 65:
-  //       console.log('Touche appuyée: ' + e.key);
-  //       break;
-  //     case 90:
-  //       console.log('Touche appuyée: ' + e.key);
-  //       break;
-  //     default:
-  //       console.log('Sorry, you have to select only letters from A to Z');
-  //   }
-  //   e.preventDefault();
-  // }
-
   onSelectedLetterHandle = (event) => {
     let clickedLetter = event.target.innerHTML;
-    let newSelectedWord  = "";
+    let wordOnConstruction  = this.state.wordOnConstruction;
 
 
     this.state.selectedWord.split("").forEach( (letter) => {
-      if (letter == clickedLetter) {
-        newSelectedWord += letter;
+      if (letter === clickedLetter) {
+        wordOnConstruction += letter;
       } else {
-        newSelectedWord += "_";
+        wordOnConstruction += "_";
       }
     })
 
     this.setState({
-      wordToFind: newSelectedWord
+      wordOnConstruction
     });
   }
 
 
   newGame = () => {
-    let initWord = "";
+    let wordOnConstruction = this.state.wordOnConstruction;
     let dicoLength = this.state.dico.length;
     let randomWordIndex = Math.floor(Math.random() * dicoLength);
     let selectedWord = this.state.dico[randomWordIndex].toUpperCase();
 
     const numberLetterSelectedWord = selectedWord.length;
     for (let i=0; i < numberLetterSelectedWord; i++) {
-      initWord += "_";
+      wordOnConstruction += "_";
     }
     this.setState({
-      wordToFind: initWord,
-      selectedWord: selectedWord
+      wordOnConstruction,
+      selectedWord
     });
 
     console.log("Mot à trouver est: " + selectedWord);
     return selectedWord;
   }
+
+
 
   render() {
 
@@ -77,26 +67,18 @@ class App extends Component {
     return (
       <div className="app">
         <h1 className="title">Jeu du Pendu</h1>
-
-        <div className="wordtofind">{this.state.wordToFind}</div>
-
+        <div className="wordtofind">{this.state.wordOnConstruction}</div>
         <div className="keyboardBlock">
           <div className="keyboard">
             {keyboard}
           </div>
         </div>
-
         <button className="newGameButton"
           onClick={this.newGame}>New Game</button>
-
         <div className="usedLetters">
-          <p>Lettre utilisées : ...</p>
+          <p>Lettre utilisées : {this.state.usedLetters}</p>
         </div>
-
-        <div className="win">
-          <p>Bien joué le mot à deviner est bien ...</p>
-        </div>
-
+        <p className="win">{this.state.win}</p>
       </div>
     );
   }
