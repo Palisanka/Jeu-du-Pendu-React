@@ -16,17 +16,21 @@ class App extends Component {
 
   onSelectedLetterHandle = (event) => {
     let clickedLetter = event.target.innerHTML;
-    let newWord  = "";
+    let newWord = "";
 
 
     this.state.selectedWord.split("").forEach( (letter) => {
       if (letter === clickedLetter) {
         newWord += letter;
+      } else if (newWord === this.state.selectedWord) {
+        this.setState({
+          win: "GAGNE !"
+        });
       } else {
         newWord += "_";
       }
     })
-
+    console.log(newWord);
     this.setState({
       wordOnConstruction: newWord
     });
