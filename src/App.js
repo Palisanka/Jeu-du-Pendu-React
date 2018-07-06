@@ -14,10 +14,16 @@ class App extends Component {
     };
   }
 
+  // computeDisplay (phrase, usedLetters) => {
+  //   return phrase.replace(/\w/g,
+  //     (letter) => (usedLetters.has(letter) ? letter : '_')
+  //   )
+  // }
+
+
   onSelectedLetterHandle = (event) => {
     let clickedLetter = event.target.innerHTML;
     let newWord = "";
-
 
     this.state.selectedWord.split("").forEach( (letter) => {
       if (letter === clickedLetter) {

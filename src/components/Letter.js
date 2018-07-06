@@ -1,12 +1,18 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import '../styles/Letter.css';
 
-const Letter = (props) => {
+const Letter = ({oneLetter, click}) => {
   return (
-    <div className="letter" onClick={props.click}>
-      {props.oneLetter}
+    <div className="letter" onClick={click}>
+      {oneLetter}
     </div>
   )
 };
+
+Letter.propTypes = {
+  oneLetter: PropTypes.string.isRequired,
+  click: PropTypes.func.isRequired
+}
 
 export default Letter;
