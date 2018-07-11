@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import Letter from './components/Letter.js';
+import Letter from '../components/Letter.js';
 import './App.css';
 
 class App extends Component {
@@ -10,7 +10,7 @@ class App extends Component {
       selectedWord: "",
       dico: ["google", "apple", "facebook", "amazon"],
       win: "",
-      usedLetters: ""
+      usedLetters: [],
     };
   }
 
@@ -26,20 +26,29 @@ class App extends Component {
     let newWord = "";
 
     this.state.selectedWord.split("").forEach( (letter) => {
-      if (letter === clickedLetter) {
+      console.log("usedLetter : " + this.state.usedLetters);
+      console.log("letter  : " + letter);
+      if (letter === clickedLetter || this.state.usedLetters.includes(letter)) {
         newWord += letter;
-      } else if (newWord === this.state.selectedWord) {
+        let newUsedLetters = this.state.usedLetters.concat(letter);
         this.setState({
-          win: "GAGNE !"
+          usedLetters: newUsedLetters
         });
       } else {
         newWord += "_";
       }
     })
-    console.log(newWord);
-    this.setState({
-      wordOnConstruction: newWord
-    });
+
+    if (newWord === this.state.selectedWord) {
+      this.setState({
+        win: "GAGNE !",
+        wordOnConstruction: newWord
+      });
+    } else {
+      this.setState({
+        wordOnConstruction: newWord
+      });
+    }
   }
 
 
