@@ -16,6 +16,13 @@ class App extends Component {
   }
 
   /**
+   * componentDidMount - start the game when the component is ready
+   */
+  componentDidMount() {
+    this.newGame();
+  }
+
+  /**
    * onSelectedLetterHandle
    * recreate the wordOnConstruction each time the user click on a letter
    * @param {event} event the click event
