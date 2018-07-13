@@ -5,6 +5,7 @@ import './App.css';
 class App extends Component {
   constructor(props) {
     super(props);
+    // set initial state
     this.state = {
       wordOnConstruction: "",
       selectedWord: "",
@@ -14,33 +15,33 @@ class App extends Component {
     };
   }
 
-  // computeDisplay (phrase, usedLetters) => {
-  //   return phrase.replace(/\w/g,
-  //     (letter) => (usedLetters.has(letter) ? letter : '_')
-  //   )
-  // }
-
-
+  /**
+   * onSelectedLetterHandle
+   * recreate the wordOnConstruction each time the user click on a letter
+   * @param {event} event the click event
+   */
   onSelectedLetterHandle = (event) => {
     let clickedLetter = event.target.innerHTML;
     let newWord = "";
 
-    this.state.selectedWord.split("").forEach( (letter) => {
-      console.log("usedLetter : " + this.state.usedLetters);
-      console.log("letter  : " + letter);
+    // recreate the wordOnConstruction
+    this.state.selectedWord.split("").forEach( (letter) => { // forEach letter in the word to find
+      // check if the letter match the selected letter OR match a letter already used
       if (letter === clickedLetter || this.state.usedLetters.includes(letter)) {
         newWord += letter;
         let newUsedLetters = this.state.usedLetters.concat(letter);
+        // update usedLetter only if new usedLetter
         if (letter === clickedLetter) {
           this.setState({
             usedLetters: newUsedLetters
           });
         }
-      } else {
+      } else { // add a '_' if there is no match
         newWord += "_";
       }
     })
 
+    // update the global state
     if (newWord === this.state.selectedWord) {
       this.setState({
         win: "GAGNE !",
@@ -54,6 +55,9 @@ class App extends Component {
   }
 
 
+  /**
+   * newGame - initialize a new game
+   */
   newGame = () => {
     let initWord = "";
     let dicoLength = this.state.dico.length;
