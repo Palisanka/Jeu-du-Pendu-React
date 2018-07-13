@@ -42,3 +42,21 @@
 .keyboardTitle {
   margin-bottom: 30px;
 }
+
+.usedLetters {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin: auto;
+  width: 800px;
+}
+
+.test {
+  cursor: not-allowed;
+  background-color: #999;
+}
+
+.win {
+  font-size: 30px;
+  color: red;
+}
