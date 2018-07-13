@@ -31,9 +31,11 @@ class App extends Component {
       if (letter === clickedLetter || this.state.usedLetters.includes(letter)) {
         newWord += letter;
         let newUsedLetters = this.state.usedLetters.concat(letter);
-        this.setState({
-          usedLetters: newUsedLetters
-        });
+        if (letter === clickedLetter) {
+          this.setState({
+            usedLetters: newUsedLetters
+          });
+        }
       } else {
         newWord += "_";
       }
