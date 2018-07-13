@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import Letter from '../components/Letter.js';
+import Letter from '../components/Letter';
 import './App.css';
 
 class App extends Component {
