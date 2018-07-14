@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
-import Letter from '../components/Letter.js';
+import Letter from '../components/Letter';
 import '../styles/App.css';
 
 class App extends Component {
   constructor(props) {
     super(props);
+    // set initial state
     this.state = {
       wordOnConstruction: "",
       selectedWord: "",
@@ -14,26 +15,41 @@ class App extends Component {
     };
   }
 
+  /**
+   * componentDidMount - start the game when the component is ready
+   */
+  componentDidMount() {
+    this.initKeyBoard();
+    this.newGame();
+  }
 
+  /**
+   * onSelectedLetterHandle
+   * recreate the wordOnConstruction each time the user click on a letter
+   * @param {event} event the click event
+   */
   onSelectedLetterHandle = (event) => {
     let clickedLetter = event.target.innerHTML;
     let newWord = "";
-    let newUsedLetters = "";
 
-    this.state.selectedWord.split("").forEach( (letter) => {
-      console.log("usedLetter : " + this.state.usedLetters);
-      console.log("letter  : " + letter);
+    // recreate the wordOnConstruction
+    this.state.selectedWord.split("").forEach( (letter) => { // forEach letter in the word to find
+      // check if the letter match the selected letter OR match a letter already used
       if (letter === clickedLetter || this.state.usedLetters.includes(letter)) {
         newWord += letter;
-        newUsedLetters = this.state.usedLetters.concat(letter);
-        this.setState({
-          usedLetters: newUsedLetters
-        });
-      } else {
+        const newUsedLetters = this.state.usedLetters.concat(letter);
+        // update usedLetter only if new usedLetter
+        if (letter === clickedLetter) {
+          this.setState({
+            usedLetters: newUsedLetters
+          });
+        }
+      } else { // add a '_' if there is no match
         newWord += "_";
       }
     })
 
+    // update the global state
     if (newWord === this.state.selectedWord) {
       this.setState({
         win: "GAGNE !!!!",
@@ -47,6 +63,9 @@ class App extends Component {
   }
 
 
+  /**
+   * newGame - initialize a new game
+   */
   newGame = () => {
     let initWord = "";
     let dicoLength = this.state.dico.length;
@@ -60,23 +79,37 @@ class App extends Component {
     this.setState({
       wordOnConstruction: initWord,
       selectedWord: selectedWord,
-      usedLetters: []
+      usedLetters: [],
+      win: ""
     });
+    this.initKeyBoard();
 
     console.log("Mot à trouver: " + selectedWord);
+  }
+
+  initKeyBoard() {
+    const letters = "azertyuiopqsdfghjklmwxcvbn".split("");
+    const keyboard = letters.map((letter, index) => {
+      return <Letter
+        key={index}
+        style={{ background: 'white' }}
+        oneLetter={letter.toUpperCase()}
+        click={this.onSelectedLetterHandle} />
+    });
+    this.setState({ keyboard })
   }
 
 
 
   render() {
 
-    const letters = "azertyuiopqsdfghjklmwxcvbn".split("");
-    const keyboard = letters.map((letter, index) => {
-      return <Letter
-        key={index}
-        oneLetter={letter.toUpperCase()}
-        click={this.onSelectedLetterHandle} />
-    });
+    // const letters = "azertyuiopqsdfghjklmwxcvbn".split("");
+    // const keyboard = letters.map((letter, index) => {
+    //   return <Letter
+    //     key={index}
+    //     oneLetter={letter.toUpperCase()}
+    //     click={this.onSelectedLetterHandle} />
+    // });
 
     const style = {
       cursor: "not-allowed",
@@ -96,7 +129,7 @@ class App extends Component {
         <div className="wordtofind">{this.state.wordOnConstruction}</div>
         <div className="keyboardBlock">
           <div className="keyboard">
-            {keyboard}
+            {this.state.keyboard}
           </div>
         </div>
         <button className="newGameButton"
