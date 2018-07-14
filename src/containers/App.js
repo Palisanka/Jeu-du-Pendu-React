@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import Letter from '../components/Letter';
-import './App.css';
+import '../styles/App.css';
 
 class App extends Component {
   constructor(props) {
@@ -37,7 +37,7 @@ class App extends Component {
       // check if the letter match the selected letter OR match a letter already used
       if (letter === clickedLetter || this.state.usedLetters.includes(letter)) {
         newWord += letter;
-        let newUsedLetters = this.state.usedLetters.concat(letter);
+        const newUsedLetters = this.state.usedLetters.concat(letter);
         // update usedLetter only if new usedLetter
         if (letter === clickedLetter) {
           this.setState({
@@ -52,7 +52,7 @@ class App extends Component {
     // update the global state
     if (newWord === this.state.selectedWord) {
       this.setState({
-        win: "GAGNE !",
+        win: "GAGNE !!!!",
         wordOnConstruction: newWord
       });
     } else {
@@ -84,7 +84,7 @@ class App extends Component {
     });
     this.initKeyBoard();
 
-    console.log("Mot à trouver est: " + selectedWord);
+    console.log("Mot à trouver: " + selectedWord);
   }
 
   initKeyBoard() {
@@ -111,6 +111,18 @@ class App extends Component {
     //     click={this.onSelectedLetterHandle} />
     // });
 
+    const style = {
+      cursor: "not-allowed",
+      backgroundColor: "#999"
+    }
+
+    const oldLetters = this.state.usedLetters.map((letter, index) => {
+      return <Letter
+        style={style}
+        key={index}
+        oneLetter={letter.toUpperCase()} />
+    });
+
     return (
       <div className="app">
         <h1 className="title">Jeu du Pendu</h1>
@@ -122,8 +134,9 @@ class App extends Component {
         </div>
         <button className="newGameButton"
           onClick={this.newGame}>New Game</button>
-        <div className="usedLetters">
-          <p>Lettre utilisées : {this.state.usedLetters}</p>
+        <div>
+          <h3>Lettres utilisées</h3>
+            <div className="usedLetters">{oldLetters}</div>
         </div>
         <p className="win">{this.state.win}</p>
       </div>
