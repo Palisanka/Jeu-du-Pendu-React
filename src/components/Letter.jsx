@@ -6,8 +6,19 @@ class Letter extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			styleLetter: {}
+			styleLetter: props.style
 		};
+	}
+
+	/**
+	 * componentWillReceiveProps
+	 * reset the background color if we rerender the keyboard
+	 * @param {*} newProps 
+	 */
+	componentWillReceiveProps(newProps) {
+		if(newProps.style.background !== this.state.styleLetter.background) {
+			this.setState({ styleLetter: newProps.style})
+		}
 	}
 
 	/**

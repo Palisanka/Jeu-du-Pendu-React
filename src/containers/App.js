@@ -19,6 +19,7 @@ class App extends Component {
    * componentDidMount - start the game when the component is ready
    */
   componentDidMount() {
+    this.initKeyBoard();
     this.newGame();
   }
 
@@ -77,23 +78,38 @@ class App extends Component {
     }
     this.setState({
       wordOnConstruction: initWord,
-      selectedWord: selectedWord
+      selectedWord: selectedWord,
+      usedLetters: [],
+      win: ""
     });
+    this.initKeyBoard();
 
     console.log("Mot à trouver est: " + selectedWord);
+  }
+
+  initKeyBoard() {
+    const letters = "azertyuiopqsdfghjklmwxcvbn".split("");
+    const keyboard = letters.map((letter, index) => {
+      return <Letter
+        key={index}
+        style={{ background: 'white' }}
+        oneLetter={letter.toUpperCase()}
+        click={this.onSelectedLetterHandle} />
+    });
+    this.setState({ keyboard })
   }
 
 
 
   render() {
 
-    const letters = "azertyuiopqsdfghjklmwxcvbn".split("");
-    const keyboard = letters.map((letter, index) => {
-      return <Letter
-        key={index}
-        oneLetter={letter.toUpperCase()}
-        click={this.onSelectedLetterHandle} />
-    });
+    // const letters = "azertyuiopqsdfghjklmwxcvbn".split("");
+    // const keyboard = letters.map((letter, index) => {
+    //   return <Letter
+    //     key={index}
+    //     oneLetter={letter.toUpperCase()}
+    //     click={this.onSelectedLetterHandle} />
+    // });
 
     return (
       <div className="app">
@@ -101,7 +117,7 @@ class App extends Component {
         <div className="wordtofind">{this.state.wordOnConstruction}</div>
         <div className="keyboardBlock">
           <div className="keyboard">
-            {keyboard}
+            {this.state.keyboard}
           </div>
         </div>
         <button className="newGameButton"
